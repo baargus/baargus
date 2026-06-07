@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup Aurora — rappel a l'ouverture de session + dans la journee (plafond 3/j cote script)
+
+[Timer]
+OnStartupSec=2min
+OnUnitActiveSec=4h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

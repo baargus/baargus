@@ -1,0 +1,14 @@
+[Unit]
+Description=Backup hebdo Aurora (KeePass 2 cles + Borg)
+After=graphical-session.target
+Requires=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sleep 30
+Environment=DISPLAY=:0
+Environment=WAYLAND_DISPLAY=wayland-0
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+ExecStart=%h/Projects/meta/baargus/scripts/backup-aurora.sh
+TimeoutStartSec=3600
