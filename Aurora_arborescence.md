@@ -2,7 +2,7 @@
 
 > Machine : **Aurora** (Fedora Kinoite atomique, hostname `legion-aurora`), opérateur **Baptiste Sobocinski (baargus)**.
 > Doc de référence du rangement du PC local. Versionnée dans `baargus/baargus` (survit au déménagement, accessible partout).
-> Dernière mise à jour : 2026-06-07.
+> Dernière mise à jour : 2026-06-07 (+ §10 — système de sauvegarde).
 
 ---
 
@@ -125,6 +125,7 @@ Ce sont des emplacements **standard** pour scripts/outillage loose. On ne les d�
 - **Outils vivants dans `local/`** (conteneurs actifs) : **AppFlowy, AnythingLLM, ollama, qdrant, searxng, api-key-rotator**. Ne pas toucher config ni data.
 - **Backups défensifs VPS2** dans `_archives/` (`archives/`, `infra-backups/`) : filet de rollback de la **migration VPS2 AlmaLinux en cours**. Ne pas purger tant que la migration n'est pas close.
 - **`.vscode/`** : config de **VSCodium** (l'éditeur de code actif sur Aurora). Ne jamais supprimer ni gitignorer globalement.
+- **Supports & repo de backup** : `KP_MAIN`, `KP_BACKUP`, `BACKUP_LEGION` et le repo `borg-legion/` (cf. §10). Ne pas trafiquer manuellement.
 
 ---
 
@@ -136,6 +137,51 @@ Ce sont des emplacements **standard** pour scripts/outillage loose. On ne les d�
 - **Données générées volumineuses mêlées au code** : corpus DILA (14 G), markdown générés. → séparer data (`local/`, gitignorée) du code (Gitea) ; ne committer que le pipeline, pas ses sorties.
 - **Snapshots git à `git status` non vide** : un working-tree non committé dans un backup = travail unique présent nulle part ailleurs. → **inspecter `git status` / `git stash` AVANT toute purge** ; prouver la redondance par `git merge-base --is-ancestor <sha> <branche-remote>` (pas par `ls-remote | grep`, qui ne montre que les tips).
 - **Secrets en clair dans des `.env` orphelins** : credentials prod traînant dans des dossiers oubliés. → chiffrer SOPS, supprimer le clair, vérifier la diffusion git.
+
+---
+
+## 10. Sauvegarde — backup hebdo Aurora
+
+Système de sauvegarde local, **hebdomadaire, chiffré, vérifié des deux côtés**. Script + units versionnés dans `meta/baargus` (réinstallables après déménagement).
+
+### Les 3 supports physiques (USB)
+| Support | Rôle |
+|---|---|
+| **KP_MAIN**       | base KeePass **source de vérité** (`kdbx/*.kdbx` + `archives/`) |
+| **KP_BACKUP**     | copie KeePass (propagée depuis KP_MAIN, vérifiée par hash) |
+| **BACKUP_LEGION** | disque du **repo Borg chiffré** `borg-legion/` (+ archives datées) |
+
+### Composants (versionnés dans `meta/baargus/`)
+- `scripts/backup-aurora.sh` — le script (lancement manuel forcé : `--force`).
+- `systemd/backup-aurora.{service,timer}` — copies réinstallables des units.
+
+### Déroulé du script (fail-closed)
+1. **Garde-fou** : les 3 supports montés ? sinon popup « branche… » (kdialog) ou report.
+2. **Étape KeePass** : archive datée de MAIN **et** BACKUP → propage MAIN→KP_BACKUP → **vérif sha256** ; si hash ≠ → **abort avant Borg**.
+3. **Étape Borg** : `borg create` (périmètre ci-dessous) + `borg check --last 1`.
+4. **Marqueur** `~/.local/share/backup-aurora-last` (timestamp du dernier succès).
+
+### Automatisation & persistance
+- **Timer** : `OnStartupSec=2min` + `OnUnitActiveSec=4h` + `Persistent=true`.
+- **Service** : `graphical-session.target` + env Wayland (`WAYLAND_DISPLAY`, `DBUS_SESSION_BUS_ADDRESS`, `XDG_RUNTIME_DIR`) → popup kdialog sur Wayland.
+- **Logique « tant que pas fait »** : skip si dernier backup < 7 j ; sinon popup.
+- **Anti-spam** : plafond **3 rappels/jour** (`backup-aurora-nag-AAAAMMJJ`), réarmé chaque jour.
+
+### Périmètre Borg
+- **Inclus** : `devpro` · `Documents` · `Projects` · `bin` · `scripts` · `.config`
+- **Exclus** : `devpro/_archives` · `devpro/local` · `node_modules` · `target` · `.cache` · `go/pkg` · `__pycache__` · `.venv` · `dist` · `.next`
+
+### Clé & passphrase
+- Repo Borg chiffré ; **passphrase saisie via popup** (jamais dans le script).
+- Clé de récupération exportée : `devpro/secrets/borg-legion-key.txt.sops` (chiffrée SOPS).
+
+### Réinstaller (ex. à La Réunion)
+```bash
+cp ~/Projects/meta/baargus/systemd/backup-aurora.* ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now backup-aurora.timer
+```
+Restaurer une archive : `export BORG_REPO=/run/media/batewa/BACKUP_LEGION/borg-legion` puis `borg list` et `borg extract ::<archive>`.
 
 ---
 
