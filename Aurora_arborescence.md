@@ -71,14 +71,14 @@ _vendor/        aider-fork  (fork upstream externe, NE PAS ranger ailleurs)
 - **Backup / snapshot** → `devpro/_archives/<sujet>-AAAAMMJJ/` (daté). Vérifier la redondance avant toute purge (cf. §9).
 - **Donnée régénérable / cache** → `local/` ou `_archives/`, jamais dans un repo (gitignore).
 
-**Jamais committer** (gitignore **global** `~/.config/git/ignore`, `core.excludesFile`) :
+**Jamais committer** — artefacts d'éditeurs/IDE régénérables (gitignore **global** `~/.config/git/ignore` via `core.excludesFile`) :
 ```
 .cursor/
 .specstory/
 .cursorindexingignore
 .cursorrules
 ```
-(`.vscode/` est **conservé** — config éditeur volontaire, cf. §8.)
+(Résidus d'anciens éditeurs IA, non utilisés — bloqués globalement pour qu'ils ne reviennent jamais polluer un repo. `.vscode/` en revanche est **conservé** : VSCodium est l'éditeur actif, cf. §8.)
 
 ---
 
@@ -124,7 +124,7 @@ Ce sont des emplacements **standard** pour scripts/outillage loose. On ne les d�
 
 - **Outils vivants dans `local/`** (conteneurs actifs) : **AppFlowy, AnythingLLM, ollama, qdrant, searxng, api-key-rotator**. Ne pas toucher config ni data.
 - **Backups défensifs VPS2** dans `_archives/` (`archives/`, `infra-backups/`) : filet de rollback de la **migration VPS2 AlmaLinux en cours**. Ne pas purger tant que la migration n'est pas close.
-- **`.vscode/`** : config de l'éditeur actif. Ne jamais supprimer ni gitignorer globalement.
+- **`.vscode/`** : config de **VSCodium** (l'éditeur de code actif sur Aurora). Ne jamais supprimer ni gitignorer globalement.
 
 ---
 
