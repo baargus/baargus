@@ -61,7 +61,7 @@ Depuis la suppression de `~/devpro/` (2026-06-08), les dossiers non-code vivent 
 
 **`local/` n'est pas la data des conteneurs** : les volumes Podman vivent ailleurs (ex. `ollama-models/` y est vide — les modèles sont dans un volume). `local/` = config + scratch.
 
-> ⚠️ **À relocaliser** : `infra-docs/` (ex-`devpro/infra-docs/` : audits sécu, templates, runbooks) est **introuvable** au 8 juin 2026 — à récupérer (probablement à reverser dans `infra/stacks/docs/` ou `devops-knowledge/`). Pas de `Projects/secrets/` SOPS dédié non plus (seul `_archives/secrets/` subsiste) — à clarifier si un besoin réapparaît.
+> **Note** : l'ancien `devpro/infra-docs/` (catégorie héritée) était un **squelette vide** — supprimé le 8 juin, **rien perdu**. Son rôle est déjà couvert par `infra/stacks/docs/` (servers, adr, audits, runbooks, migration) et `devops-knowledge/` (doc transverse) ; **ne pas le recréer**. Côté secrets SOPS transverses : seul `_archives/secrets/` subsiste (clé Borg), pas de `Projects/secrets/` dédié — à clarifier si un besoin réapparaît.
 
 ---
 
