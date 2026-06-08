@@ -26,7 +26,7 @@ Le poste pro s'organise en **deux racines disjointes** (+ l'outillage racine `~/
 Convention : **`~/Projects/<catégorie>/<repo>/`**. Un repo = un dossier git. Catégories de code actuelles (les dossiers spéciaux non-git `devops-knowledge/`, `local/`, `_archives/` sont décrits en §3) :
 
 ```
-devbox/            cloud · sovereign
+devbox/            cloud
 security-projects/ clean · digital-shield · kidshield · smishguard
 infra/             bootstrap · llm-stack-local · stacks · vps1-prod · vps2-monitoring-supervision · vps3-hermes · vps4-memory · windmill-automation
 meta/              baargus · devprosp-skills
@@ -94,7 +94,7 @@ Depuis la suppression de `~/devpro/` (2026-06-08), les dossiers non-code vivent 
 
 Ce sont des emplacements **standard** pour scripts/outillage loose. On ne les déplace pas dans `Projects/`.
 
-> **Nettoyage racine 2026-06-08** : `~/dev-sovereign-home/` (HOME sandbox runtime du devbox, 736 Mo) **supprimé** ; `~/dev-sovereign-audit/` **déplacé** dans le repo → `Projects/devbox/sovereign/audit-logs/` (**à gitignorer** : logs ≠ code). `~/kubectl` rangé dans `~/bin/`. Aussi purgés : `~/.pre-reorg-snapshot-20260513/` (11 Go, réorg soldée + Borg), vestiges Cursor/`.specstory`, `~/Apps/` (→ `Applications/Lunii/`), divers orphelins janvier.
+> **Nettoyage racine 2026-06-08** : `~/dev-sovereign-home/` (HOME sandbox runtime, 736 Mo) **supprimé** ; le devbox **`sovereign`** (container mort, remplacé par Claude Code natif) **archivé** avec ses audit-logs → `_archives/devbox-sovereign-202604/` — `devbox/` ne garde que `cloud`. `~/kubectl` rangé dans `~/bin/`. Aussi purgés : `~/.pre-reorg-snapshot-20260513/` (11 Go, réorg soldée + Borg), vestiges Cursor/`.specstory`, `~/Apps/` (→ `Applications/Lunii/`), divers orphelins janvier.
 
 ---
 
