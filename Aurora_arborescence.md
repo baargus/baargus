@@ -91,10 +91,10 @@ Depuis la suppression de `~/devpro/` (2026-06-08), les dossiers non-code vivent 
 | `~/bin/` | scripts ops (hardening Fedora, audit) — appelés par services systemd user |
 | `~/scripts/` | déploiement + scripts de migration HOME — référencés par systemd |
 | `~/go/` | cache `GOPATH` (`pkg/mod`) — peuplé par les builds sage |
-| `~/dev-sovereign-home/` | HOME sandboxé du devbox `sovereign` (runtime) |
-| `~/dev-sovereign-audit/` | logs d'audit du devbox sovereign |
 
 Ce sont des emplacements **standard** pour scripts/outillage loose. On ne les déplace pas dans `Projects/`.
+
+> **Nettoyage racine 2026-06-08** : `~/dev-sovereign-home/` (HOME sandbox runtime du devbox, 736 Mo) **supprimé** ; `~/dev-sovereign-audit/` **déplacé** dans le repo → `Projects/devbox/sovereign/audit-logs/` (**à gitignorer** : logs ≠ code). `~/kubectl` rangé dans `~/bin/`. Aussi purgés : `~/.pre-reorg-snapshot-20260513/` (11 Go, réorg soldée + Borg), vestiges Cursor/`.specstory`, `~/Apps/` (→ `Applications/Lunii/`), divers orphelins janvier.
 
 ---
 
