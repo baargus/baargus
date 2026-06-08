@@ -91,9 +91,9 @@ BORG_PASSPHRASE="$(kdialog --title "Borg Backup" --password "Passphrase du repo 
 [ -n "$BORG_PASSPHRASE" ] || { notify_err "Passphrase vide. Borg annule (KeePass deja sauve)."; exit 1; }
 export BORG_PASSPHRASE
 borg create --list --stats --compression zstd,3 "::$ARCHIVE" \
-  "$HOME_R/devpro" "$HOME_R/Documents" "$HOME_R/Projects" \
+  "$HOME_R/Documents" "$HOME_R/Projects" \
   "$HOME_R/bin" "$HOME_R/scripts" "$HOME_R/.config" \
-  --exclude "$HOME_R/devpro/_archives" --exclude "$HOME_R/devpro/local" \
+  --exclude "$HOME_R/Projects/_archives" --exclude "$HOME_R/Projects/local" \
   --exclude '*/node_modules' --exclude '*/target' --exclude '*/.cache' \
   --exclude "$HOME_R/go/pkg" --exclude '*/__pycache__' --exclude '*/.venv' \
   --exclude '*/dist' --exclude '*/.next'
