@@ -1,0 +1,19 @@
+# Artefacts éditeurs / OS
+.cursor/
+.specstory/
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Sauvegardes et journaux locaux
+*.bak
+*.bak-*
+*.log
+
+# Secrets : jamais versionnés (fichiers KeePass, clés, passphrases)
+*.kdbx
+*.key
+*.pem
+age-key.txt

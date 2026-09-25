@@ -57,7 +57,7 @@ systemd/                   backup-aurora.service, backup-aurora.timer
 - **Dossier `templates/` non suivi** : `templates/CLAUDE.project.template.md` recommande de **ne pas** dupliquer les règles transverses
   du `CLAUDE.md` global dans les `CLAUDE.md` de projet ; les `CLAUDE.md`/`AGENTS.md` créés le 25/09/2026 les dupliquent volontairement
   (lus aussi par Codex, qui n'a pas le fichier global). Convention à trancher : À COMPLÉTER.
-- **Pas de `.gitignore`**.
+- `.gitignore` ajouté le 25/09/2026 (artefacts éditeurs, sauvegardes, fichiers KeePass et clés) ; `templates/` n'y figure pas volontairement.
 - Remote `github` désactivé (URL `DISABLED`) ; `origin` pointe vers le dépôt de profil `baargus/baargus` (namespace utilisateur, pas `devpro-sp`).
 - Le script de sauvegarde codifie des chemins de supports USB (`/run/media/batewa/…`) : toute réinstallation ou changement d'utilisateur les casse.
 - L'arborescence décrit `devbox/` comme « cloud seul » ; vérifier sa cohérence avec l'état réel de `~/Projects/` avant de s'y fier.
