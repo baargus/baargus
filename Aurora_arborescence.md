@@ -14,7 +14,7 @@ Le poste pro s'organise en **deux racines disjointes** (+ l'outillage racine `~/
 
 | Racine | Rôle | Git ? |
 |---|---|---|
-| **`~/Projects/`** | **CODE + DOCS/DATA/RUNTIME** — repos git rangés par catégorie (§2) **+** dossiers spéciaux non-git `devops-knowledge/`, `local/`, `_archives/` (§3) | partiel |
+| **`~/Projects/`** | **CODE + DOCS/DATA/RUNTIME** — repos git rangés par catégorie (§2) **+** dossiers spéciaux non-git `devops-knowledge/`, `local/`, `_archives/`, `_imports/` (§3) | partiel |
 | **`~/Documents/`** | **PRIVÉ** — perso, administratif, formations | non |
 
 **Règle d'or** : du code = un repo git dans une catégorie de `Projects/` ; la doc transverse, le runtime et les archives = dossiers spéciaux dédiés de `Projects/` (jamais mélangés au code) ; le perso reste dans `Documents/`. En cas de doute → voir §4.
@@ -23,7 +23,7 @@ Le poste pro s'organise en **deux racines disjointes** (+ l'outillage racine `~/
 
 ## 2. `~/Projects/` — le code (catégories de repos)
 
-Convention : **`~/Projects/<catégorie>/<repo>/`**. Un repo = un dossier git. Catégories de code actuelles (les dossiers spéciaux non-git `devops-knowledge/`, `local/`, `_archives/` sont décrits en §3) :
+Convention : **`~/Projects/<catégorie>/<repo>/`**. Un repo = un dossier git. Catégories de code actuelles (les dossiers spéciaux non-git `devops-knowledge/`, `local/`, `_archives/`, `_imports/` sont décrits en §3) :
 
 ```
 devbox/            cloud
@@ -56,8 +56,9 @@ Depuis la suppression de `~/devpro/` (2026-06-08), les dossiers non-code vivent 
 | Dossier | Ce qui a le droit d'y vivre |
 |---|---|
 | **`local/`** | **runtime** des outils self-hosted locaux (config, workspaces). Le code y vivant doit être **versionné dans une catégorie de `Projects/`** ; ici seulement la copie d'exécution. Contenu au 8 juin : `appflowy-selfhosted/`, `ollama-models/`. |
-| **`_archives/`** | **quarantaine datée** : `<sujet>-AAAAMMJJ/`. Tout ce qu'on retire mais ne supprime pas encore. Contient les **backups défensifs VPS2** (`archives/`, `infra-backups/`, intouchables cf. §8) et **`secrets/`** (clé Borg SOPS). |
+| **`_archives/`** | **projets retirés, conservés en lecture seule, sans développement**. Rangement en quarantaine datée : `<sujet>-AAAAMMJJ/`. Tout ce qu'on retire mais ne supprime pas encore. Contient les **backups défensifs VPS2** (`archives/`, `infra-backups/`, intouchables cf. §8) et **`secrets/`** (clé Borg SOPS). |
 | **`devops-knowledge/`** | savoir transverse devops (ex-`devpro/knowledge/`) : `cert-manager-architecture.md`, `gitops-cluster-pattern.md`, `cloudflare-tokens.md`, etc. |
+| **`_imports/`** | **livraisons externes vérifiées et contenus entrants**. Structure : `livraisons/<projet>-<version>/` avec le zip, son empreinte SHA-256 et les rapports de vérification. |
 
 **`local/` n'est pas la data des conteneurs** : les volumes Podman vivent ailleurs (ex. `ollama-models/` y est vide — les modèles sont dans un volume). `local/` = config + scratch.
 
@@ -111,7 +112,7 @@ Ce sont des emplacements **standard** pour scripts/outillage loose. On ne les d�
 
 ## 7. Conventions machine
 
-- **Chemins FR** : `~/Téléchargements/` (accent + T majuscule). Repos `~/Projects/<cat>/<repo>/` ; docs/runtime/archives sous `~/Projects/` (`devops-knowledge/` · `local/` · `_archives/`).
+- **Chemins FR** : `~/Téléchargements/` (accent + T majuscule). Repos `~/Projects/<cat>/<repo>/` ; docs/runtime/archives sous `~/Projects/` (`devops-knowledge/` · `local/` · `_archives/` · `_imports/`).
 - **OS atomique** : Fedora Kinoite (rpm-ostree). Sur Aurora → **Flatpak ou conteneur (Quadlet)** uniquement, jamais d'install manuelle (AppImage/tarball).
 - **Conteneurs** : Podman rootless + SELinux Enforcing + Quadlet. Container Quadlet = `systemctl --user` only (jamais `podman restart/stop`).
 - **Shell zsh** — écrire **bash/POSIX portable** :
